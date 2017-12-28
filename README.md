@@ -13,4 +13,10 @@ This folder contains a AWS-Cloud9 template file. It's the root of all definition
 ## Frontend
 Contains a vue todolist frontend that uses lambda functions to create, read and update todos. By running `yarn run build` a dist folder is created. Upload these files to a S3 bucket and set it public.
 
-For sure all processes can and should be automated for real projects.
+### Testing
+
+I also added an example unit test for the addTodo lambda function: https://github.com/Journerist/serverless-todolist/blob/master/aws-lambda/Todos/addTodo/__test__/index.spec.js
+
+Cloud9 offers nice testing mechanics but for now it did not work with external dependencies like dynamo db. But I am confident that they will also improve that.
+
+One more thing to mention is that you should also add integration tests to test the real behavior in a test environment. All functions should be deployed. Afterwards some request should proof that everything works. This test suite is probably useful to automate pre-release testing in a continuous delivery pipeline.
