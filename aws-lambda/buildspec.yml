@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - npm install time
+      - aws cloudformation package --template-file Todos/template.yaml --s3-bucket code-deploy-todos-lambda --output-template-file NewSamTemplate.yaml
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Compiling and test the Node.js code TBD
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  type: zip
+  files:
+    - NewSamTemplate.yaml

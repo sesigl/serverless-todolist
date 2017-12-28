@@ -1,0 +1,82 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: An AWS Serverless Specification template describing your function.
+Resources:
+  getTodos:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: getTodos/index.handler
+      Runtime: nodejs6.10
+      Description: ''
+      MemorySize: 128
+      Timeout: 15
+      Role: 'arn:aws:iam::521928654091:role/cloud9-Todos-addTodoRole-1LBVBSTNJO6XE'
+      Events:
+        LambdaMicroservice:
+          Type: Api
+          Properties:
+            Path: /todos/
+            Method: GET
+  getTodosPermission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName:
+        'Fn::GetAtt':
+          - getTodos
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        'Fn::Sub': 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:*/*/*/*'
+  addTodo:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: addTodo/index.handler
+      Runtime: nodejs6.10
+      Description: ''
+      MemorySize: 128
+      Timeout: 15
+      Role: 'arn:aws:iam::521928654091:role/cloud9-Todos-addTodoRole-1LBVBSTNJO6XE'
+      Events:
+        LambdaMicroservice:
+          Type: Api
+          Properties:
+            Path: /todos/
+            Method: POST
+  addTodoPermission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName:
+        'Fn::GetAtt':
+          - addTodo
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        'Fn::Sub': 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:*/*/*/*'
+  finishTodo:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: finishTodo/index.handler
+      Runtime: nodejs6.10
+      Description: ''
+      MemorySize: 128
+      Timeout: 15
+      Role: 'arn:aws:iam::521928654091:role/cloud9-Todos-addTodoRole-1LBVBSTNJO6XE'
+      Events:
+        LambdaMicroservice:
+          Type: Api
+          Properties:
+            Path: /todos/{id}/action/finish/
+            Method: POST
+  finishTodoPermission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName:
+        'Fn::GetAtt':
+          - finishTodo
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        'Fn::Sub': 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:*/*/*/*'
