@@ -1,7 +1,6 @@
-"use strict";
-
 var AWS = require("aws-sdk");
-var dynamodb = new AWS.DynamoDB({ apiVersion: "2012-08-10" });
+
+var dynamodb = new AWS.DynamoDB({ apiVersion: "2012-08-10", region: 'eu-west-1' });
 var uuid = require("uuid");
 exports.handler = (event, context, callback) => {
 
@@ -34,7 +33,6 @@ exports.handler = (event, context, callback) => {
         body: JSON.stringify(data),
         isBase64Encoded: false
       };
-
       callback(null, response);
     }
   });
